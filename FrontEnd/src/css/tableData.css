@@ -1,0 +1,15 @@
+.email-column {
+    width:300px; 
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.table-spacing {
+    border-collapse: separate;
+    border-spacing: 10px;
+}
+
+.table-cell-padding {
+    padding:'30px'; 
+}

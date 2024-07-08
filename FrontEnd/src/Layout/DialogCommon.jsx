@@ -1,0 +1,281 @@
+import { Button } from '@/components/ui/button';
+import {
+    Dialog,
+    DialogContent,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle
+} from "@/components/ui/dialog";
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useToast } from "@/components/ui/use-toast";
+import { EyeNoneIcon, EyeOpenIcon } from '@radix-ui/react-icons';
+import { Box, Flex, Grid, IconButton, Separator, Text } from '@radix-ui/themes';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+
+export default function DialogCommon({
+    open,
+    onOpenChange,
+    setIsFetching,
+    isFetching,
+    itemUser,
+    isEdit,
+    setIsEdit }) {
+    const { toast } = useToast()
+    const baseURL = import.meta.env.VITE_API_LOCAL;
+    const { register, handleSubmit, formState: { errors }, reset, setValue, watch } = useForm();
+    const [previewUrl, setPreviewUrl] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            setPreviewUrl(URL.createObjectURL(file));
+            setSelectedFile(file);
+        }
+    };
+
+    const clearForm = () => {
+        reset({
+            email: '',
+            phone: '',
+            firstname: '',
+            lastname: '',
+            password: '',
+            confirm: ''
+        });
+        setValue('role', 'admin');
+        setPreviewUrl(null);
+        setShowPassword(false);
+        setShowConfirmPassword(false);
+    };
+
+    const handleCancel = () => {
+        onOpenChange(false);
+        clearForm();
+    };
+
+    const togglePasswordVisibility = () => {
+        setShowPassword((prev) => !prev);
+    };
+
+    const toggleConfirmPasswordVisibility = () => {
+        setShowConfirmPassword((prev) => !prev);
+    };
+
+    const onHandleSubmit = async () => {
+        setIsSubmitting(true); 
+
+        const formData = new FormData();
+        formData.append('email', watch("email"));
+        formData.append('phone', watch("phone"));
+        formData.append('firstname', watch("firstname"));
+        formData.append('lastname', watch("lastname"));
+        formData.append('role', watch("role"));
+        formData.append('password', watch("password"));
+        formData.append('confirm', watch("confirm"));
+
+        if (selectedFile) {
+            formData.append('file', selectedFile);
+        }
+
+        try {
+            let res;
+            if (itemUser) {
+                res = await axios.put(`${baseURL}user-managerment/update/${itemUser?._id}`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+            } else {
+                res = await axios.post(`${baseURL}user-managerment/create-new`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+            }
+
+            if (res) {
+                toast({
+                    description: itemUser ? 'User updated successfully' : 'Create new user success',
+                });
+                clearForm();
+                setIsFetching(!isFetching);
+                onOpenChange(false);
+                setIsEdit(false);
+            }
+
+        } catch (error) {
+            console.error('Err:', error);
+        } finally {
+            setIsSubmitting(false); // Kết thúc submit
+        }
+    };
+
+    useEffect(() => {
+        if (itemUser) {
+            setValue('email', itemUser.email);
+            setValue('phone', itemUser.phone);
+            setValue('firstname', itemUser.firstname);
+            setValue('lastname', itemUser.lastname);
+            setValue('role', itemUser.role);
+            setValue('password', itemUser.password);
+            setValue('confirm', itemUser.confirm);
+            setPreviewUrl(itemUser.avatar);
+        }
+    }, [itemUser, setValue]);
+
+    return (
+        <Dialog open={open} onOpenChange={onOpenChange}>
+            <DialogContent style={{ minWidth: 900 }}>
+                <DialogHeader>
+                    <DialogTitle>{isEdit ? 'Update user' : 'Create New User'}</DialogTitle>
+                </DialogHeader>
+                <form onSubmit={handleSubmit(onHandleSubmit)}>
+                    <Flex align='start' justify='between'>
+                        <Grid style={{ paddingLeft: 10 }}>
+                            <Text>User detail</Text>
+                            <Flex align='center' justify='between' maxWidth='800px'>
+                                <Grid style={{ padding: '10px 0px', marginRight: 10 }}>
+                                    <Label style={{ padding: '10px 0px' }} htmlFor="email" className="text-right">
+                                        Email <span style={{ color: 'red' }}>*</span>
+                                    </Label>
+                                    <Input
+                                        id="email"
+                                        className="col-span-3"
+                                        style={{ width: 240 }}
+                                        {...register("email", { required: true })}
+                                    />
+                                    {errors.email && <span style={{ color: 'red', fontSize: 14 }}>Email is required</span>}
+                                </Grid>
+                                <Grid>
+                                    <select {...register("role", { required: true })}>
+                                        <option value="admin">Admin</option>
+                                        <option value="user">User</option>
+                                        <option value="manager">Manager</option>
+                                        <option value="tester">Tester</option>
+                                    </select>
+                                    {errors.role && <span style={{ color: 'red', fontSize: 14 }}>Role is required</span>}
+                                </Grid>
+                            </Flex>
+                            <Grid style={{ padding: '10px 0px' }}>
+                                <Label style={{ padding: '10px 0px' }} htmlFor="phone" className="text-right">
+                                    Phone <span style={{ color: 'red' }}>*</span>
+                                </Label>
+                                <Input
+                                    id="phone"
+                                    {...register("phone", { required: true })}
+                                />
+                                {errors.phone && <span style={{ color: 'red', fontSize: 14 }}>Phone number is required</span>}
+                            </Grid>
+                            <Flex align='center' justify='between' maxWidth='800px'>
+                                <Grid style={{ padding: '10px 0px', marginRight: 10 }}>
+                                    <Label style={{ padding: '10px 0px' }} htmlFor="firstname" className="text-right">
+                                        First Name <span style={{ color: 'red' }}>*</span>
+                                    </Label>
+                                    <Input
+                                        id="firstname"
+                                        style={{ width: 240 }}
+                                        {...register("firstname", { required: true })}
+                                    />
+                                    {errors.firstname && <span style={{ color: 'red', fontSize: 14 }}>First name is required</span>}
+                                </Grid>
+                                <Grid>
+                                    <Label style={{ padding: '10px 0px' }} htmlFor="lastname" className="text-right">
+                                        Last Name <span style={{ color: 'red' }}>*</span>
+                                    </Label>
+                                    <Input
+                                        id="lastname"
+                                        style={{ width: 240 }}
+                                        {...register("lastname", { required: true })}
+                                    />
+                                    {errors.lastname && <span style={{ color: 'red', fontSize: 14 }}>Last name is required</span>}
+                                </Grid>
+                            </Flex>
+                            <Grid style={{ padding: '10px 0px' }}>
+                                <Label style={{ padding: '10px 0px' }} htmlFor="password" className="text-right">
+                                    Password <span style={{ color: 'red' }}>*</span>
+                                </Label>
+                                <Box style={{ position: 'relative' }}>
+                                    <Input
+                                        id="password"
+                                        type={showPassword ? 'text' : 'password'}
+                                        style={{ paddingRight: '2.5rem' }}
+                                        {...register("password", { required: true })}
+                                    />
+                                    {errors.password && <span style={{ color: 'red', fontSize: 14 }}>Password is required</span>}
+                                    <IconButton
+                                        onClick={togglePasswordVisibility}
+                                        style={{
+                                            position: 'absolute',
+                                            top: '50%',
+                                            right: '0.5rem',
+                                            transform: 'translateY(-50%)',
+                                        }}
+                                    >
+                                        {showPassword ? <EyeOpenIcon /> : <EyeNoneIcon />}
+                                    </IconButton>
+                                </Box>
+                            </Grid>
+                            <Grid style={{ padding: '10px 0px' }}>
+                                <Label style={{ padding: '10px 0px' }} htmlFor="confirm" className="text-right">
+                                    Confirm password <span style={{ color: 'red' }}>*</span>
+                                </Label>
+                                <Box style={{ position: 'relative' }}>
+                                    <Input
+                                        id="confirm"
+                                        type={showConfirmPassword ? 'text' : 'password'}
+                                        style={{ paddingRight: '2.5rem' }}
+                                        {...register("confirm", { required: true })}
+                                    />
+                                    {errors.confirm && <span style={{ color: 'red', fontSize: 14 }}>Confirm password is required</span>}
+                                    <IconButton
+                                        onClick={toggleConfirmPasswordVisibility}
+                                        style={{
+                                            position: 'absolute',
+                                            top: '50%',
+                                            right: '0.5rem',
+                                            transform: 'translateY(-50%)',
+                                        }}
+                                    >
+                                        {showConfirmPassword ? <EyeOpenIcon /> : <EyeNoneIcon />}
+                                    </IconButton>
+                                </Box>
+                            </Grid>
+                        </Grid>
+                        <Separator orientation="vertical" size="4" />
+                        <Grid style={{ marginRight: 40 }}>
+                            <Text>Profile picture</Text>
+                            <Grid style={{ border: '1px dashed #B2BAC2', borderRadius: 5, padding: 30, marginTop: 20 }}>
+                                <label htmlFor="file-upload">
+                                    {previewUrl ?
+                                        <img src={previewUrl} alt="Preview" style={{ width: '200px', height: '200px', objectFit: 'cover' }} />
+                                        :
+                                        <img src={'/add_img.png'} alt="Preview" style={{ width: '100%', height: 'auto' }} />}
+                                    <input
+                                        id="file-upload"
+                                        type="file"
+                                        style={{ display: 'none' }}
+                                        onChange={handleFileChange}
+                                    />
+                                </label>
+                                <Text style={{ color: 'black', marginTop: 10 }}>Select an image</Text>
+                            </Grid>
+                        </Grid>
+                    </Flex>
+                    <DialogFooter>
+                        <Button type="button" onClick={handleCancel} disabled={isSubmitting}>Cancel</Button>
+                        <Button type="submit" disabled={isSubmitting}>
+                            {isEdit ? 'Update' : 'Create new'}
+                        </Button>
+                    </DialogFooter>
+                </form>
+            </DialogContent>
+        </Dialog>
+    );
+}
