@@ -71,6 +71,27 @@ const UserController = {
             res.status(500).json({ err: e.message });
         }
     },
+
+    // Search
+    searchUser: async (req, res) => {
+        try {
+            const firstname = req.query.firstname;
+            const role = req.query.role;
+
+            const query = {};
+            if (firstname) {
+                query.firstname = { $regex: firstname, $options: "i" };
+            }
+            if (role) {
+                query.role = role; 
+            }
+
+            const users = await UserModel.find(query);
+            res.status(200).json(users);
+        } catch (e) {
+            res.status(500).json({ err: e.message });
+        }
+    },
 }
 
 module.exports = UserController
