@@ -39,9 +39,14 @@ const UserController = {
     updateUser: async (req, res) => {
         try {
             const userId = req.params.id;
+            const existingUser = await UserModel.findById(userId);
+
+            if (!existingUser) {
+                return res.status(404).json({ err: 'User not found' });
+            }
+
             const userUpdate = {
                 email: req.body.email,
-                avatar: req.file ? req.file.path : '',
                 phone: req.body.phone,
                 firstname: req.body.firstname,
                 lastname: req.body.lastname,
@@ -49,9 +54,18 @@ const UserController = {
                 password: req.body.password,
                 confirm: req.body.confirm,
             };
+
+            // Chỉ cập nhật avatar nếu có ảnh mới
+            if (req.file) {
+                userUpdate.avatar = req.file.path;
+            } else {
+                userUpdate.avatar = existingUser.avatar;
+            }
+
             const query = { _id: userId };
             const options = { new: true };
             const result = await UserModel.findOneAndUpdate(query, userUpdate, options);
+
             res.status(200).json(result);
         } catch (e) {
             res.status(500).json({ err: e });

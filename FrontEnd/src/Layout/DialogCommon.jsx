@@ -69,7 +69,7 @@ export default function DialogCommon({
     };
 
     const onHandleSubmit = async () => {
-        setIsSubmitting(true); 
+        setIsSubmitting(true);
 
         const formData = new FormData();
         formData.append('email', watch("email"));
@@ -82,6 +82,8 @@ export default function DialogCommon({
 
         if (selectedFile) {
             formData.append('file', selectedFile);
+        } else if (isEdit && itemUser.avatar) {
+            formData.append('avatar', itemUser.avatar);
         }
 
         try {
@@ -113,7 +115,7 @@ export default function DialogCommon({
         } catch (error) {
             console.error('Err:', error);
         } finally {
-            setIsSubmitting(false); 
+            setIsSubmitting(false);
         }
     };
 
@@ -210,6 +212,7 @@ export default function DialogCommon({
                                     />
                                     {errors.password && <span style={{ color: 'red', fontSize: 14 }}>Password is required</span>}
                                     <IconButton
+                                        type='button'
                                         onClick={togglePasswordVisibility}
                                         style={{
                                             position: 'absolute',
@@ -235,6 +238,7 @@ export default function DialogCommon({
                                     />
                                     {errors.confirm && <span style={{ color: 'red', fontSize: 14 }}>Confirm password is required</span>}
                                     <IconButton
+                                        type='button'
                                         onClick={toggleConfirmPasswordVisibility}
                                         style={{
                                             position: 'absolute',
@@ -252,18 +256,20 @@ export default function DialogCommon({
                         <Grid style={{ marginRight: 40 }}>
                             <Text>Profile picture</Text>
                             <Grid style={{ border: '1px dashed #B2BAC2', borderRadius: 5, padding: 30, marginTop: 20 }}>
-                                <label htmlFor="file-upload">
-                                    {previewUrl ?
-                                        <img src={previewUrl} alt="Preview" style={{ width: '200px', height: '200px', objectFit: 'cover' }} />
-                                        :
-                                        <img src={'/add_img.png'} alt="Preview" style={{ width: '100%', height: 'auto' }} />}
-                                    <input
-                                        id="file-upload"
-                                        type="file"
-                                        style={{ display: 'none' }}
-                                        onChange={handleFileChange}
-                                    />
-                                </label>
+                                <IconButton type='button'>
+                                    <label htmlFor="file-upload">
+                                        {previewUrl ?
+                                            <img src={previewUrl} alt="Preview" style={{ width: '200px', height: '200px', objectFit: 'cover' }} />
+                                            :
+                                            <img src={'/add_img.png'} alt="Preview" style={{ width: '100%', height: 'auto' }} />}
+                                        <input
+                                            id="file-upload"
+                                            type="file"
+                                            style={{ display: 'none' }}
+                                            onChange={handleFileChange}
+                                        />
+                                    </label>
+                                </IconButton>
                                 <Text style={{ color: 'black', marginTop: 10 }}>Select an image</Text>
                             </Grid>
                         </Grid>

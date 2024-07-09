@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, Route, Routes } from 'react-router-dom';
-import { HamburgerMenuIcon, PersonIcon, GlobeIcon, FileIcon } from '@radix-ui/react-icons';
+import { HamburgerMenuIcon, PersonIcon, GlobeIcon, FileIcon, DashboardIcon } from '@radix-ui/react-icons';
 
 import '../css/sidebar.css';
 import Users from '@/pages/Users';
@@ -8,6 +8,12 @@ import Header from './Header';
 import { Box, Button, Flex } from '@radix-ui/themes';
 
 const sideBarMenu = [
+    {
+        label: 'Dashboard',
+        path: '/dashboard',
+        icon: <DashboardIcon />,
+        component: ''
+    },
     {
         label: 'User',
         path: '/user-managerment',
@@ -21,8 +27,8 @@ const sideBarMenu = [
         component: ''
     },
     {
-        label: 'Setting',
-        path: '/setting-managerment',
+        label: 'Statistical',
+        path: '/statistical-managerment',
         icon: <GlobeIcon />,
         component: ''
     },
