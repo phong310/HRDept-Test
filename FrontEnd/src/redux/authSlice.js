@@ -59,7 +59,7 @@ const authSlice = createSlice({
 
         // REFRESH TOKEN
         refreshAccessToken: (state, action) => {
-            state.login.currentUser.accessToken = action.payload;
+            state.login.currentUser = action.payload;
         },
     }
 });

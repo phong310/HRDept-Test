@@ -8,7 +8,7 @@ const authController = {
         return jwt.sign({
             id: user.id,
         },
-            process.env.JWT_ACCESS_KEY, { expiresIn: "10s" }
+            process.env.JWT_ACCESS_KEY, { expiresIn: "1d" }
         )
     },
 
@@ -46,7 +46,7 @@ const authController = {
                 httpOnly: true,
                 secure: false,
                 path: "/",
-                sameSite: "None",
+                sameSite: "Strict",
                 maxAge: 365 * 24 * 60 * 60 * 1000,
             });
 
@@ -89,7 +89,7 @@ const authController = {
                 httpOnly: true,
                 secure: false,
                 path: "/",
-                sameSite: "None",
+                sameSite: "Strict",
                 maxAge: 365 * 24 * 60 * 60 * 1000,
             });
 

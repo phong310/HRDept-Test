@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
     Dialog,
     DialogContent,
@@ -6,29 +6,42 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
-import axios from "axios";
+import { createAxios } from "@/intercepter";
+import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { refreshAccessToken } from "@/redux/authSlice";
 
 export function DialogDelete({ open, onOpenChange, itemUser, setIsFetching, isFetching }) {
     const baseURL = import.meta.env.VITE_API_LOCAL;
-    const { toast } = useToast()
+    const { toast } = useToast();
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.auth.login?.currentUser);
+    let axiosJWT = createAxios(user, dispatch, refreshAccessToken);
+
     const handleCancel = () => {
         onOpenChange(false);
     };
 
     const handleDelete = async () => {
         try {
-            const res = await axios.delete(`${baseURL}user-managerment/${itemUser?._id}`)
-            onOpenChange(false)
-            setIsFetching(!isFetching)
+            const res = await axiosJWT.delete(`${baseURL}user-managerment/${itemUser?._id}`, {
+                headers: { token: `Bearer ${user?.accessToken}` },
+            });
+            onOpenChange(false);
+            setIsFetching(!isFetching);
             toast({
                 description: 'Delete user success',
-            })
+            });
         } catch (e) {
             console.log('Err:', e);
+            toast({
+                description: 'Delete user failed',
+                variant: 'destructive',
+            });
         }
-    }
+    };
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -36,7 +49,7 @@ export function DialogDelete({ open, onOpenChange, itemUser, setIsFetching, isFe
                 <DialogHeader>
                     <DialogTitle>Delete user</DialogTitle>
                     <DialogDescription>
-                        Are you sure you want to delete <span style={{ color: 'red' }}>'{itemUser?.email}'</span> ?
+                        Are you sure you want to delete <span style={{ color: 'red' }}>'{itemUser?.email}'</span>?
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
@@ -45,5 +58,5 @@ export function DialogDelete({ open, onOpenChange, itemUser, setIsFetching, isFe
                 </DialogFooter>
             </DialogContent>
         </Dialog>
-    )
+    );
 }

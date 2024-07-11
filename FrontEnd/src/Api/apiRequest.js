@@ -8,8 +8,8 @@ const baseURL = import.meta.env.VITE_API_LOCAL;
 export const LoginUser = async (user, dispatch, navigate, toast) => {
     dispatch(loginStart())
     try {
-        const res = await axios.post(`${baseURL}auth/login`, user
-            // { withCredentials: true }
+        const res = await axios.post(`${baseURL}auth/login`, user,
+            { withCredentials: true }
         );
         dispatch(loginSuccess(res.data));
         navigate("/main");
@@ -36,10 +36,10 @@ export const LoginUser = async (user, dispatch, navigate, toast) => {
 }
 
 // LOGOUT 
-export const LogoutUser = async (id, dispatch, navigate, accessToken, toast) => {
+export const LogoutUser = async (id, dispatch, navigate, accessToken, toast, axiosJWT) => {
     dispatch(logOutStart());
     try {
-        await axios.post(`${baseURL}auth/logout`, id, {
+        await axiosJWT.post(`${baseURL}auth/logout`, id, {
             headers: { token: `Bearer ${accessToken}` },
         })
         dispatch(logOutSuccess());
@@ -50,6 +50,7 @@ export const LogoutUser = async (id, dispatch, navigate, accessToken, toast) => 
         })
 
     } catch (e) {
+        console.log(e);
         dispatch(logOutFailed());
         toast({
             title: "Uh oh! Something went wrong.",

@@ -7,6 +7,8 @@ import {
     HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { useToast } from '@/context/ToastContext';
+import { createAxios } from '@/intercepter';
+import { logOutSuccess } from '@/redux/authSlice';
 import { BellIcon } from '@radix-ui/react-icons';
 import { Flex, Grid, Heading, Separator, Text } from '@radix-ui/themes';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,9 +22,10 @@ export default function Header() {
     const dispatch = useDispatch();
     const  toast  = useToast();
     const navigate = useNavigate();
+    let axiosJWT = createAxios(user, dispatch, logOutSuccess)
 
     const handleLogout = async () => {
-        LogoutUser(id, dispatch, navigate, accessToken, toast)
+        LogoutUser(id, dispatch, navigate, accessToken, toast, axiosJWT)
     }
 
     return (

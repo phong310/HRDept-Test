@@ -9,11 +9,14 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from "@/components/ui/use-toast";
+import { createAxios } from '@/intercepter';
+import { refreshAccessToken } from '@/redux/authSlice';
 import { EyeNoneIcon, EyeOpenIcon } from '@radix-ui/react-icons';
 import { Box, Flex, Grid, IconButton, Separator, Text } from '@radix-ui/themes';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function DialogCommon({
     open,
@@ -24,7 +27,10 @@ export default function DialogCommon({
     isEdit,
     setIsEdit }) {
     const { toast } = useToast()
+    const dispatch = useDispatch()
     const baseURL = import.meta.env.VITE_API_LOCAL;
+    const user = useSelector((state) => state.auth.login?.currentUser);
+    let axiosJWT = createAxios(user, dispatch, refreshAccessToken);
     const { register, handleSubmit, formState: { errors }, reset, setValue, watch } = useForm();
     const [previewUrl, setPreviewUrl] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
@@ -90,15 +96,17 @@ export default function DialogCommon({
         try {
             let res;
             if (itemUser) {
-                res = await axios.put(`${baseURL}user-managerment/update/${itemUser?._id}`, formData, {
+                res = await axiosJWT.put(`${baseURL}user-managerment/update/${itemUser?._id}`, formData, {
                     headers: {
-                        'Content-Type': 'multipart/form-data'
+                        'Content-Type': 'multipart/form-data',
+                        token: `Bearer ${user?.accessToken}`
                     }
                 });
             } else {
-                res = await axios.post(`${baseURL}user-managerment/create-new`, formData, {
+                res = await axiosJWT.post(`${baseURL}user-managerment/create-new`, formData, {
                     headers: {
-                        'Content-Type': 'multipart/form-data'
+                        'Content-Type': 'multipart/form-data',
+                        token: `Bearer ${user?.accessToken}`
                     }
                 });
             }
