@@ -58,6 +58,7 @@ export default function DialogCommon({
     const handleCancel = () => {
         onOpenChange(false);
         clearForm();
+        setIsEdit(false)
     };
 
     const togglePasswordVisibility = () => {
@@ -120,7 +121,7 @@ export default function DialogCommon({
     };
 
     useEffect(() => {
-        if (itemUser) {
+        if (itemUser && isEdit) {
             setValue('email', itemUser.email);
             setValue('phone', itemUser.phone);
             setValue('firstname', itemUser.firstname);
@@ -130,7 +131,7 @@ export default function DialogCommon({
             setValue('confirm', itemUser.confirm);
             setPreviewUrl(itemUser.avatar);
         }
-    }, [itemUser, setValue]);
+    }, [itemUser, setValue, isEdit]);
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -210,7 +211,7 @@ export default function DialogCommon({
                                         style={{ paddingRight: '2.5rem' }}
                                         {...register("password", { required: true })}
                                     />
-                                    {errors.password && <span style={{ color: 'red', fontSize: 14 }}>Password is required</span>}
+                                    {errors.password && <span style={{ color: 'red', fontSize: 14, position: 'absolute', top: '100%' }}>Password is required</span>}
                                     <IconButton
                                         type='button'
                                         onClick={togglePasswordVisibility}
@@ -234,9 +235,12 @@ export default function DialogCommon({
                                         id="confirm"
                                         type={showConfirmPassword ? 'text' : 'password'}
                                         style={{ paddingRight: '2.5rem' }}
-                                        {...register("confirm", { required: true })}
+                                        {...register("confirm", {
+                                            required: "Confirm password is required",
+                                            validate: value => value === watch("password") || "Password do not match"
+                                        })}
                                     />
-                                    {errors.confirm && <span style={{ color: 'red', fontSize: 14 }}>Confirm password is required</span>}
+                                    {errors.confirm && <span style={{ color: 'red', fontSize: 14, position: 'absolute', top: '100%' }}>{errors.confirm.message}</span>}
                                     <IconButton
                                         type='button'
                                         onClick={toggleConfirmPasswordVisibility}

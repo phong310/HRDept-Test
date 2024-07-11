@@ -1,34 +1,34 @@
-import React, { useState } from 'react';
-import { NavLink, Route, Routes } from 'react-router-dom';
-import { HamburgerMenuIcon, PersonIcon, GlobeIcon, FileIcon, DashboardIcon } from '@radix-ui/react-icons';
+import { DashboardIcon, FileIcon, GlobeIcon, HamburgerMenuIcon, PersonIcon } from '@radix-ui/react-icons';
+import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
-import '../css/sidebar.css';
 import Users from '@/pages/Users';
+import { Button, Flex } from '@radix-ui/themes';
+import '../css/sidebar.css';
 import Header from './Header';
-import { Box, Button, Flex } from '@radix-ui/themes';
 
 const sideBarMenu = [
     {
         label: 'Dashboard',
-        path: '/dashboard',
+        path: '/main/dashboard',
         icon: <DashboardIcon />,
         component: ''
     },
     {
         label: 'User',
-        path: '/user-managerment',
+        path: '/main/user-managerment',
         icon: <PersonIcon />,
         component: <Users />
     },
     {
         label: 'Report',
-        path: '/report-managerment',
+        path: '/main/report-managerment',
         icon: <FileIcon />,
         component: ''
     },
     {
         label: 'Statistical',
-        path: '/statistical-managerment',
+        path: '/main/statistical-managerment',
         icon: <GlobeIcon />,
         component: ''
     },
@@ -46,11 +46,9 @@ const SideBar = () => {
             <Header />
             <div className={`sidebar ${isOpen ? 'open' : ''}`}>
                 <div className="sidebar-content">
-                    {/* Sidebar Header */}
                     <div className="sidebar-header" onClick={toggleSidebar}>
                         <HamburgerMenuIcon />
                     </div>
-                    {/* Sidebar Links */}
                     <div className="sidebar-links">
                         <div className='sidebar-child'>
                             <ul>
@@ -75,11 +73,6 @@ const SideBar = () => {
                     </div>
                 </div>
             </div>
-            <Box style={{ marginLeft: 260, marginTop: 20 }}>
-                <Routes>
-                    <Route path="/user-managerment" element={<Users />} />
-                </Routes>
-            </Box>
         </div>
     );
 };

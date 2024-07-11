@@ -1,14 +1,30 @@
+import { LogoutUser } from '@/Api/apiRequest';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { BellIcon } from '@radix-ui/react-icons';
-import { Flex, Grid, Heading, Separator, Text } from '@radix-ui/themes';
+import { Button } from '@/components/ui/button';
 import {
     HoverCard,
     HoverCardContent,
     HoverCardTrigger,
-} from "@/components/ui/hover-card"
-import { Button } from '@/components/ui/button';
+} from "@/components/ui/hover-card";
+import { useToast } from '@/context/ToastContext';
+import { BellIcon } from '@radix-ui/react-icons';
+import { Flex, Grid, Heading, Separator, Text } from '@radix-ui/themes';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function Header() {
+    const user = useSelector((state) => state.auth.login?.currentUser)
+    const id = user?.user?._id;
+    const accessToken = user?.accessToken
+    const dispatch = useDispatch();
+    const  toast  = useToast();
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        LogoutUser(id, dispatch, navigate, accessToken, toast)
+    }
+
     return (
         <>
             <Flex align="center" justify="between" maxWidth="1800px" pl="260px" py="2" gap={3}>
@@ -30,7 +46,7 @@ export default function Header() {
                                 </Avatar>
                             </HoverCardTrigger>
                             <HoverCardContent style={{ width: 120 }}>
-                                <Button variant="ghost">Logout</Button>
+                                <Button variant="ghost" onClick={handleLogout}>Logout</Button>
                             </HoverCardContent>
                         </HoverCard>
                     </Flex>

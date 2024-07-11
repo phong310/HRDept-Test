@@ -1,13 +1,19 @@
+import { Toaster } from "@/components/ui/toaster"
+import { Route, Routes } from 'react-router-dom'
 import './App.css'
 import './index.css'
-import SideBar from './Layout/SideBar'
-import { Toaster } from "@/components/ui/toaster"
+import MainLayout from './Layout/MainLayout'
+import Login from './pages/Login'
+import PrivateRoute from "./Private/PrivateRoute"
 
 function App() {
 
   return (
     <>
-      <SideBar />
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/main/*" element={<PrivateRoute element={MainLayout} />} />
+      </Routes>
       <Toaster />
     </>
   )
