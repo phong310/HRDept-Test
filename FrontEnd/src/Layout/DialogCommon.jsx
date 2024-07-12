@@ -143,23 +143,22 @@ export default function DialogCommon({
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent style={{ minWidth: 900 }}>
-                <DialogHeader>
+            <DialogContent style={{ maxWidth: '45vw', maxHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+                <DialogHeader style={{ flex: '0 0 auto' }}>
                     <DialogTitle>{isEdit ? 'Update user' : 'Create New User'}</DialogTitle>
                 </DialogHeader>
-                <form onSubmit={handleSubmit(onHandleSubmit)}>
-                    <Flex align='start' justify='between'>
+                <form onSubmit={handleSubmit(onHandleSubmit)} style={{ flex: '1 1 auto', overflowY: 'auto' }}>
+                    <Flex align='start' justify='between' gap='2' style={{ flexWrap: 'wrap' }}>
                         <Grid style={{ paddingLeft: 10 }}>
                             <Text>User detail</Text>
-                            <Flex align='center' justify='between' maxWidth='800px'>
-                                <Grid style={{ padding: '10px 0px', marginRight: 10 }}>
+                            <Flex align='center' justify='between' gap='2' style={{ flexWrap: 'wrap' }}>
+                                <Grid width={{ xs: '100%', md: '49%' }} style={{ padding: '10px 0px' }}>
                                     <Label style={{ padding: '10px 0px' }} htmlFor="email" className="text-right">
                                         Email <span style={{ color: 'red' }}>*</span>
                                     </Label>
                                     <Input
                                         id="email"
                                         className="col-span-3"
-                                        style={{ width: 240 }}
                                         {...register("email", { required: true })}
                                     />
                                     {errors.email && <span style={{ color: 'red', fontSize: 14 }}>Email is required</span>}
@@ -184,25 +183,23 @@ export default function DialogCommon({
                                 />
                                 {errors.phone && <span style={{ color: 'red', fontSize: 14 }}>Phone number is required</span>}
                             </Grid>
-                            <Flex align='center' justify='between' maxWidth='800px'>
-                                <Grid style={{ padding: '10px 0px', marginRight: 10 }}>
+                            <Flex align='center' justify='between' gap='2' wrap='wrap'>
+                                <Grid width={{ xs: '100%', md: '49%' }} style={{ padding: '10px 0px' }}>
                                     <Label style={{ padding: '10px 0px' }} htmlFor="firstname" className="text-right">
                                         First Name <span style={{ color: 'red' }}>*</span>
                                     </Label>
                                     <Input
                                         id="firstname"
-                                        style={{ width: 240 }}
                                         {...register("firstname", { required: true })}
                                     />
                                     {errors.firstname && <span style={{ color: 'red', fontSize: 14 }}>First name is required</span>}
                                 </Grid>
-                                <Grid>
+                                <Grid width={{ xs: '100%', md: '49%' }}>
                                     <Label style={{ padding: '10px 0px' }} htmlFor="lastname" className="text-right">
                                         Last Name <span style={{ color: 'red' }}>*</span>
                                     </Label>
                                     <Input
                                         id="lastname"
-                                        style={{ width: 240 }}
                                         {...register("lastname", { required: true })}
                                     />
                                     {errors.lastname && <span style={{ color: 'red', fontSize: 14 }}>Last name is required</span>}
@@ -216,16 +213,16 @@ export default function DialogCommon({
                                     <Input
                                         id="password"
                                         type={showPassword ? 'text' : 'password'}
-                                        style={{ paddingRight: '2.5rem' }}
-                                        {...register("password", { required: true })}
+                                        style={{ paddingRight: '2.5rem', marginBottom: 20 }}
+                                        {...register("password", { required: "Password is required" })}
                                     />
-                                    {errors.password && <span style={{ color: 'red', fontSize: 14, position: 'absolute', top: '100%' }}>Password is required</span>}
+                                    {errors.password && <span style={{ color: 'red', fontSize: 14, position: 'absolute', top: '100%' }}>{errors.password.message}</span>}
                                     <IconButton
                                         type='button'
                                         onClick={togglePasswordVisibility}
                                         style={{
                                             position: 'absolute',
-                                            top: '50%',
+                                            top: '35%',
                                             right: '0.5rem',
                                             transform: 'translateY(-50%)',
                                         }}
@@ -265,7 +262,7 @@ export default function DialogCommon({
                             </Grid>
                         </Grid>
                         <Separator orientation="vertical" size="4" />
-                        <Grid style={{ marginRight: 40 }}>
+                        <Grid style={{ marginRight: 80, marginTop: 10 }}>
                             <Text>Profile picture</Text>
                             <Grid style={{ border: '1px dashed #B2BAC2', borderRadius: 5, padding: 30, marginTop: 20 }}>
                                 <IconButton type='button'>
@@ -286,9 +283,9 @@ export default function DialogCommon({
                             </Grid>
                         </Grid>
                     </Flex>
-                    <DialogFooter>
+                    <DialogFooter style={{ marginTop: 30, flex: '0 0 auto' }}>
                         <Button type="button" onClick={handleCancel} disabled={isSubmitting}>Cancel</Button>
-                        <Button type="submit" disabled={isSubmitting}>
+                        <Button type="submit" disabled={isSubmitting} style={{ marginBottom: 5 }}>
                             {isEdit ? 'Update' : 'Create new'}
                         </Button>
                     </DialogFooter>

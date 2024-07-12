@@ -54,7 +54,7 @@ export function DialogDelete({ open, onOpenChange, itemUser, setIsFetching, isFe
                 </DialogHeader>
                 <DialogFooter>
                     <Button type="button" onClick={handleCancel}>Cancel</Button>
-                    <Button type="submit" onClick={handleDelete}>Delete</Button>
+                    <Button type="submit" onClick={handleDelete} style={{marginBottom: 5}}>Delete</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

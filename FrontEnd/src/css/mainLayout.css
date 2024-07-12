@@ -1,0 +1,43 @@
+body {
+    overflow-x: hidden;
+}
+.main-content {
+    transition: margin-left 0.3s ease;
+    margin-left: 260px;
+    margin-top: 20px;
+}
+
+.sidebar-closed {
+    margin-left: 80px;
+}
+
+@media (max-width: 1200px) {
+    .main-content {
+        margin-left: 260px;
+    }
+
+    .sidebar-closed {
+        margin-left: 80px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 80px;
+    }
+
+    .sidebar-closed {
+        margin-left: 80px;
+    }
+}
+
+@media (max-width: 576px) {
+    .main-content {
+        margin-left: 0;
+        max-width: 100%;
+    }
+
+    .sidebar-closed {
+        margin-left: 80px;
+    }
+}

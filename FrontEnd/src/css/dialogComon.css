@@ -1,0 +1,94 @@
+.dialog-content {
+    max-width: 800px;
+    width: 100%;
+    min-width: 300px;
+    padding: 20px;
+}
+
+.form-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.user-details, .profile-picture {
+    flex: 1;
+    margin: 10px;
+}
+
+.input-group {
+    padding: 10px 0;
+    flex: 1;
+    min-width: 240px;
+}
+
+.input {
+    width: 100%;
+}
+
+.role-select {
+    width: 100%;
+}
+
+.preview-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.default-image {
+    width: 100%;
+    height: auto;
+}
+
+.select-image-text {
+    color: black;
+    margin-top: 10px;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+}
+
+.toggle-visibility {
+    position: absolute;
+    top: 50%;
+    right: 0.5rem;
+    transform: translateY(-50%);
+}
+
+.required {
+    color: red;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    .form-container {
+        flex-direction: column;
+    }
+
+    .user-details, .profile-picture {
+        flex: none;
+        width: 100%;
+        margin: 0; /* Loại bỏ margin để tránh lệch lạc */
+    }
+
+    .input-group {
+        min-width: 100%;
+    }
+
+    .preview-image {
+        width: 100%;
+        height: auto;
+    }
+
+    .default-image {
+        width: 100%;
+    }
+}
+
+@media (min-width: 769px) {
+    .form-container {
+        flex-direction: row; /* Đảm bảo bố cục hàng cho màn lớn */
+    }
+}

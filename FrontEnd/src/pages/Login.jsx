@@ -12,16 +12,14 @@ import { LoginUser } from "@/Api/apiRequest";
 import { useDispatch } from 'react-redux';
 import { useToast } from "@/context/ToastContext";
 
-
 export default function Login() {
   const baseURL = import.meta.env.VITE_API_LOCAL;
-  const  toast  = useToast();
+  const toast = useToast();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { register, handleSubmit, formState: { errors }, watch } = useForm();
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -36,8 +34,8 @@ export default function Login() {
   };
 
   return (
-    <Flex align='center' justify='center' height='80vh'>
-      <Card className="w-[350px]">
+    <Flex align='center' justify='center' height='90vh' style={{ padding: '0 20px' }}>
+      <Card style={{ width: '100%', maxWidth: '450px' }}>
         <CardHeader>
           <Box style={{ textAlign: 'center' }}>
             <Heading as='h2'>HRDept Company</Heading>
@@ -45,7 +43,7 @@ export default function Login() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(handleLogin)}>
-            <Box width='400px'>
+            <Box style={{ width: '100%' }}>
               <Grid style={{ padding: '10px 0px' }}>
                 <Label style={{ padding: '10px 0px' }} htmlFor="email">
                   Email <span style={{ color: 'red' }}>*</span>
