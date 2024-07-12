@@ -159,6 +159,7 @@ export default function DialogCommon({
                                     <Input
                                         id="email"
                                         className="col-span-3"
+                                        placeholder='Enter email'
                                         {...register("email", { required: true })}
                                     />
                                     {errors.email && <span style={{ color: 'red', fontSize: 14 }}>Email is required</span>}
@@ -179,6 +180,7 @@ export default function DialogCommon({
                                 </Label>
                                 <Input
                                     id="phone"
+                                    placeholder='Enter phone number'
                                     {...register("phone", { required: true })}
                                 />
                                 {errors.phone && <span style={{ color: 'red', fontSize: 14 }}>Phone number is required</span>}
@@ -190,6 +192,7 @@ export default function DialogCommon({
                                     </Label>
                                     <Input
                                         id="firstname"
+                                        placeholder='Enter first name'
                                         {...register("firstname", { required: true })}
                                     />
                                     {errors.firstname && <span style={{ color: 'red', fontSize: 14 }}>First name is required</span>}
@@ -200,6 +203,7 @@ export default function DialogCommon({
                                     </Label>
                                     <Input
                                         id="lastname"
+                                        placeholder='Enter last name'
                                         {...register("lastname", { required: true })}
                                     />
                                     {errors.lastname && <span style={{ color: 'red', fontSize: 14 }}>Last name is required</span>}
@@ -212,6 +216,7 @@ export default function DialogCommon({
                                 <Box style={{ position: 'relative' }}>
                                     <Input
                                         id="password"
+                                        placeholder='Enter password'
                                         type={showPassword ? 'text' : 'password'}
                                         style={{ paddingRight: '2.5rem', marginBottom: 20 }}
                                         {...register("password", { required: "Password is required" })}
@@ -238,6 +243,7 @@ export default function DialogCommon({
                                 <Box style={{ position: 'relative' }}>
                                     <Input
                                         id="confirm"
+                                        placeholder='Enter confirm password'
                                         type={showConfirmPassword ? 'text' : 'password'}
                                         style={{ paddingRight: '2.5rem' }}
                                         {...register("confirm", {

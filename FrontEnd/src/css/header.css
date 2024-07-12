@@ -1,11 +1,18 @@
 .header {
-    max-width: 2000px;
-    padding-right: 20px;
-    padding-top: 8px;
+    padding-top: 10px;
     padding-bottom: 8px;
     gap: 12px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.header-user-info {
+    margin-right: 10px
+}
 .header.open {
     padding-left: 260px;
     transition: padding-left 0.3s ease;
