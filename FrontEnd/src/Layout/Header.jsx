@@ -38,13 +38,13 @@ export default function Header({ isOpen }) {
                 <Flex align="center" gap="6" className="header-user-info">
                     <BellIcon />
                     <Flex direction='column' align="end">
-                        <Text size="4" weight="bold">Admin</Text>
-                        <Text size="2" weight="light">admin</Text>
+                        <Text size="4" weight="bold">{user?.user?.firstname} {user?.user?.lastname}</Text>
+                        <Text size="2" weight="light">{user?.user?.role}</Text>
                     </Flex>
                     <HoverCard>
                         <HoverCardTrigger asChild>
                             <Avatar>
-                                <AvatarImage src="https://github.com/shadcn.png" />
+                                <AvatarImage src={user?.user?.avatar} />
                                 <AvatarFallback>CN</AvatarFallback>
                             </Avatar>
                         </HoverCardTrigger>
