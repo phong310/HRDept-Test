@@ -99,14 +99,14 @@ export default function DialogCommon({
                 res = await axiosJWT.put(`${baseURL}user-managerment/update/${itemUser?._id}`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
-                        token: `Bearer ${user?.accessToken}`
+                        // token: `Bearer ${user?.accessToken}`
                     }
                 });
             } else {
                 res = await axiosJWT.post(`${baseURL}user-managerment/create-new`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
-                        token: `Bearer ${user?.accessToken}`
+                        // token: `Bearer ${user?.accessToken}`
                     }
                 });
             }

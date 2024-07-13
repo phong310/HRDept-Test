@@ -26,9 +26,11 @@ export function DialogDelete({ open, onOpenChange, itemUser, setIsFetching, isFe
 
     const handleDelete = async () => {
         try {
-            const res = await axiosJWT.delete(`${baseURL}user-managerment/${itemUser?._id}`, {
-                headers: { token: `Bearer ${user?.accessToken}` },
-            });
+            const res = await axiosJWT.delete(`${baseURL}user-managerment/${itemUser?._id}`,
+                // {
+                //     headers: { token: `Bearer ${user?.accessToken}` },
+                // }
+            );
             onOpenChange(false);
             setIsFetching(!isFetching);
             toast({
@@ -54,7 +56,7 @@ export function DialogDelete({ open, onOpenChange, itemUser, setIsFetching, isFe
                 </DialogHeader>
                 <DialogFooter>
                     <Button type="button" onClick={handleCancel}>Cancel</Button>
-                    <Button type="submit" onClick={handleDelete} style={{marginBottom: 5}}>Delete</Button>
+                    <Button type="submit" onClick={handleDelete} style={{ marginBottom: 5 }}>Delete</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
