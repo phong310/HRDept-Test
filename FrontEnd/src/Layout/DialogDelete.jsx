@@ -27,9 +27,9 @@ export function DialogDelete({ open, onOpenChange, itemUser, setIsFetching, isFe
     const handleDelete = async () => {
         try {
             const res = await axiosJWT.delete(`${baseURL}user-managerment/${itemUser?._id}`,
-                // {
-                //     headers: { token: `Bearer ${user?.accessToken}` },
-                // }
+                {
+                    headers: { token: `Bearer ${user?.accessToken}` },
+                }
             );
             onOpenChange(false);
             setIsFetching(!isFetching);

@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from "@/components/ui/use-toast";
 import { createAxios } from '@/intercepter';
-import { refreshAccessToken } from '@/redux/authSlice';
+import { refreshAccessToken, updateProfileSuccess } from '@/redux/authSlice';
 import { EyeNoneIcon, EyeOpenIcon } from '@radix-ui/react-icons';
 import { Box, Flex, Grid, IconButton, Separator, Text } from '@radix-ui/themes';
 import axios from 'axios';
@@ -99,16 +99,19 @@ export default function DialogCommon({
                 res = await axiosJWT.put(`${baseURL}user-managerment/update/${itemUser?._id}`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
-                        // token: `Bearer ${user?.accessToken}`
+                        token: `Bearer ${user?.accessToken}`
                     }
                 });
-                const updateUser = res.data.user
-                dispatch(updateProfileSuccess(updateUser))
+                if (res.data._id == user?.user?._id) {
+                    const updateUser = res.data
+                    dispatch(updateProfileSuccess(updateUser))
+                };
+
             } else {
                 res = await axiosJWT.post(`${baseURL}user-managerment/create-new`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
-                        // token: `Bearer ${user?.accessToken}`
+                        token: `Bearer ${user?.accessToken}`
                     }
                 });
             }
