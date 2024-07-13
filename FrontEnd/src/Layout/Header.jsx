@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Flex, Grid, Heading, Separator, Text, Box } from '@radix-ui/themes';
@@ -23,10 +23,11 @@ export default function Header({ isOpen }) {
     const dispatch = useDispatch();
     const toast = useToast();
     const navigate = useNavigate();
+    const [isSubmitting, setIsSubmitting] = useState(false)
     let axiosJWT = createAxios(user, dispatch, logOutSuccess);
 
     const handleLogout = async () => {
-        LogoutUser(id, dispatch, navigate, accessToken, toast, axiosJWT);
+        LogoutUser(id, dispatch, navigate, accessToken, toast, axiosJWT, setIsSubmitting);
     }
 
     return (
@@ -49,7 +50,7 @@ export default function Header({ isOpen }) {
                             </Avatar>
                         </HoverCardTrigger>
                         <HoverCardContent style={{ width: 120 }}>
-                            <Button variant="ghost" onClick={handleLogout}>Logout</Button>
+                            <Button variant="ghost" onClick={handleLogout} disabled={isSubmitting}>Logout</Button>
                         </HoverCardContent>
                     </HoverCard>
                 </Flex>

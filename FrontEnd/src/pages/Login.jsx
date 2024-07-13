@@ -1,23 +1,21 @@
+import { LoginUser } from "@/Api/apiRequest";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useToast } from "@/context/ToastContext";
 import { EyeNoneIcon, EyeOpenIcon } from "@radix-ui/react-icons";
 import { Box, Flex, Grid, Heading, IconButton } from '@radix-ui/themes';
-import { useForm } from 'react-hook-form';
 import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import axios from "axios";
-import { LoginUser } from "@/Api/apiRequest";
+import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { useToast } from "@/context/ToastContext";
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
-  const baseURL = import.meta.env.VITE_API_PRODUCTS;
   const toast = useToast();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { register, handleSubmit, formState: { errors }, watch } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -30,7 +28,7 @@ export default function Login() {
       email: data.email,
       password: data.password
     }
-    LoginUser(user, dispatch, navigate, toast)
+    LoginUser(user, dispatch, navigate, toast, setIsSubmitting)
   };
 
   return (

@@ -5,8 +5,9 @@ const baseURL = import.meta.env.VITE_API_PRODUCTS;
 
 
 // LOGIN 
-export const LoginUser = async (user, dispatch, navigate, toast) => {
+export const LoginUser = async (user, dispatch, navigate, toast, setIsSubmitting) => {
     dispatch(loginStart())
+    setIsSubmitting(true)
     try {
         const res = await axios.post(`${baseURL}auth/login`, user,
             { withCredentials: true }
@@ -32,12 +33,15 @@ export const LoginUser = async (user, dispatch, navigate, toast) => {
                 variant: 'destructive',
             })
         }
+    } finally {
+        setIsSubmitting(false);
     }
 }
 
 // LOGOUT 
-export const LogoutUser = async (id, dispatch, navigate, accessToken, toast, axiosJWT) => {
+export const LogoutUser = async (id, dispatch, navigate, accessToken, toast, axiosJWT, setIsSubmitting) => {
     dispatch(logOutStart());
+    setIsSubmitting(true)
     try {
         await axiosJWT.post(`${baseURL}auth/logout`, id, {
             headers: { token: `Bearer ${accessToken}` },
@@ -58,5 +62,7 @@ export const LogoutUser = async (id, dispatch, navigate, accessToken, toast, axi
             variant: 'destructive',
         })
 
+    } finally {
+        setIsSubmitting(false);
     }
 }
