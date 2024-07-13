@@ -104,6 +104,7 @@ export default function Users() {
                                     <SelectItem value="user">User</SelectItem>
                                     <SelectItem value="manager">Manager</SelectItem>
                                     <SelectItem value="admin">Admin</SelectItem>
+                                    <SelectItem value="tester">Tester</SelectItem>
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
