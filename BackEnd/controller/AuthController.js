@@ -44,9 +44,9 @@ const authController = {
 
             res.cookie("refreshToken", refreshToken, {
                 httpOnly: true,
-                secure: false,
+                secure: true,
                 path: "/",
-                sameSite: "Strict",
+                sameSite: "None",
                 maxAge: 365 * 24 * 60 * 60 * 1000,
             });
 
@@ -87,9 +87,9 @@ const authController = {
     
             res.cookie("refreshToken", newRefreshToken, {
                 httpOnly: true,
-                secure: false,
+                secure: true,
                 path: "/",
-                sameSite: "Strict",
+                sameSite: "None",
                 maxAge: 365 * 24 * 60 * 60 * 1000,
             });
 
