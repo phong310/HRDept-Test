@@ -102,6 +102,8 @@ export default function DialogCommon({
                         // token: `Bearer ${user?.accessToken}`
                     }
                 });
+                const updateUser = res.data.user
+                dispatch(updateProfileSuccess(updateUser))
             } else {
                 res = await axiosJWT.post(`${baseURL}user-managerment/create-new`, formData, {
                     headers: {
