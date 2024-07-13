@@ -13,7 +13,6 @@ import { createAxios } from '@/intercepter';
 import { refreshAccessToken, updateProfileSuccess } from '@/redux/authSlice';
 import { EyeNoneIcon, EyeOpenIcon } from '@radix-ui/react-icons';
 import { Box, Flex, Grid, IconButton, Separator, Text } from '@radix-ui/themes';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
