@@ -1,18 +1,18 @@
-const UserModel = require("../models/UsersModel");
+const UserModel = require("../models/UsersModel")
 
 const UserController = {
 
     getAllUser: async (req, res) => {
         try {
             const user = await UserModel.find();
-            res.status(200).json(user);
-        } catch (e) {
-            if (!res.headersSent) {
-                res.status(500).json({ err: e });
-            }
+            res.status(200).json(user)
+        }
+        catch (e) {
+            res.status(500).json({ err: e })
         }
     },
 
+    // create user (register)
     createUser: async (req, res) => {
         try {
             const newUser = {
@@ -24,18 +24,18 @@ const UserController = {
                 role: req.body.role,
                 password: req.body.password,
                 confirm: req.body.confirm,
+
             };
             const user = new UserModel(newUser);
             await user.save();
-            res.status(200).json(user);
+            res.status(200).json(user)
         } catch (e) {
-            if (!res.headersSent) {
-                res.status(500).json({ err: e });
-            }
-            console.log(e);
+            res.status(500).json({ err: e })
+            console.log(res)
         }
     },
 
+    // update user
     updateUser: async (req, res) => {
         try {
             const userId = req.params.id;
@@ -54,7 +54,8 @@ const UserController = {
                 password: req.body.password,
                 confirm: req.body.confirm,
             };
-            
+
+            // Chỉ cập nhật avatar nếu có ảnh mới
             if (req.file) {
                 userUpdate.avatar = req.file.path;
             } else {
@@ -67,12 +68,11 @@ const UserController = {
 
             res.status(200).json(result);
         } catch (e) {
-            if (!res.headersSent) {
-                res.status(500).json({ err: e });
-            }
+            res.status(500).json({ err: e });
         }
     },
 
+    // Delete user
     deleteUser: async (req, res) => {
         try {
             const userId = req.params.id;
@@ -82,12 +82,11 @@ const UserController = {
             }
             res.status(200).json(itemDelete);
         } catch (e) {
-            if (!res.headersSent) {
-                res.status(500).json({ err: e.message });
-            }
+            res.status(500).json({ err: e.message });
         }
     },
 
+    // Search
     searchUser: async (req, res) => {
         try {
             const firstname = req.query.firstname;
@@ -104,11 +103,9 @@ const UserController = {
             const users = await UserModel.find(query);
             res.status(200).json(users);
         } catch (e) {
-            if (!res.headersSent) {
-                res.status(500).json({ err: e.message });
-            }
+            res.status(500).json({ err: e.message });
         }
     },
-};
+}
 
-module.exports = UserController;
+module.exports = UserController
