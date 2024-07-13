@@ -1,7 +1,7 @@
 import axios from "axios";
 import { logOutFailed, logOutStart, logOutSuccess, loginFailed, loginStart, loginSuccess } from "../redux/authSlice";
 
-const baseURL = import.meta.env.VITE_API_LOCAL;
+const baseURL = import.meta.env.VITE_API_PRODUCTS;
 
 
 // LOGIN 
@@ -12,7 +12,7 @@ export const LoginUser = async (user, dispatch, navigate, toast) => {
             { withCredentials: true }
         );
         dispatch(loginSuccess(res.data));
-        navigate("/main");
+        navigate("/main/user-managerment");
         toast({
             title: "SUCCESS !",
             description: 'Logged in successfully',

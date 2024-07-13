@@ -14,7 +14,7 @@ import React, { useEffect } from "react";
 import { refreshAccessToken } from "@/redux/authSlice";
 
 export function DialogDelete({ open, onOpenChange, itemUser, setIsFetching, isFetching }) {
-    const baseURL = import.meta.env.VITE_API_LOCAL;
+    const baseURL = import.meta.env.VITE_API_PRODUCTS;
     const { toast } = useToast();
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.login?.currentUser);

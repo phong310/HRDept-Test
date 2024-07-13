@@ -13,7 +13,7 @@ import { useDispatch } from 'react-redux';
 import { useToast } from "@/context/ToastContext";
 
 export default function Login() {
-  const baseURL = import.meta.env.VITE_API_LOCAL;
+  const baseURL = import.meta.env.VITE_API_PRODUCTS;
   const toast = useToast();
   const navigate = useNavigate();
   const dispatch = useDispatch();

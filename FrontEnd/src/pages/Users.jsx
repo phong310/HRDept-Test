@@ -22,7 +22,7 @@ export default function Users() {
     const [searchFirstname, setSearchFirstname] = useState("");
     const [searchRole, setSearchRole] = useState("");
     const [selectKey, setSelectKey] = useState(Date.now());
-    const baseURL = import.meta.env.VITE_API_LOCAL;
+    const baseURL = import.meta.env.VITE_API_PRODUCTS;
     const [isFetching, setIsFetching] = useState(false);
 
     const getAllData = async () => {

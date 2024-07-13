@@ -28,7 +28,7 @@ export default function DialogCommon({
     setIsEdit }) {
     const { toast } = useToast()
     const dispatch = useDispatch()
-    const baseURL = import.meta.env.VITE_API_LOCAL;
+    const baseURL = import.meta.env.VITE_API_PRODUCTS;
     const user = useSelector((state) => state.auth.login?.currentUser);
     let axiosJWT = createAxios(user, dispatch, refreshAccessToken);
     const { register, handleSubmit, formState: { errors }, reset, setValue, watch } = useForm();
